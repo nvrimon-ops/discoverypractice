@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>תסריט שיחת Discovery — Roll20 | 20 דקות מדויקות</title>
+<style>
+  :root{
+    --bg:#f7f7f5;
+    --card:#ffffff;
+    --ink:#1c1c1e;
+    --ink-soft:#54545a;
+    --line:#e4e3df;
+    --quote-bg:#eef3fb;
+    --quote-border:#3a6fb5;
+    --must-bg:#fff4e5;
+    --must-border:#c97a1a;
+    --listen-bg:#eef8f0;
+    --listen-border:#2f9e56;
+    --hard-bg:#fdecec;
+    --hard-border:#c0392b;
+    --normal-bg:#eaf7ee;
+    --normal-border:#2f9e56;
+    --trans-bg:#f1edfb;
+    --trans-border:#6c4fbb;
+    --them-bg:#f3f3f1;
+    --them-border:#b9b9b4;
+    --scn-bg:#eef6f9;
+    --scn-border:#2a8fa8;
+    --badge-f:#2a5db0;
+    --badge-e:#c0392b;
+    --badge-t:#7d3fbf;
+    --badge-c:#1f8a4c;
+    --badge-h:#b8860b;
+    --badge-n:#6b6b70;
+    --who-cto:#2a5db0;
+    --who-prospect:#1f8a4c;
+    --who-both:#6b6b70;
+    --mtag-bg:#f0e6ff;
+    --mtag-ink:#5b3aa6;
+    --mtag-border:#c9b3f0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Segoe UI","Arial Hebrew","Noto Sans Hebrew",Arial,sans-serif;
+    line-height:1.55;
+    padding:0 0 60px;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+  header.top{
+    background:linear-gradient(135deg,#1b2a4a,#2a5db0);
+    color:#fff;
+    padding:28px 0 22px;
+    margin-bottom:8px;
+  }
+  header.top h1{margin:0 0 6px;font-size:1.55rem;}
+  header.top .sub{font-size:.95rem;opacity:.9;}
+  header.top .meta{
+    margin-top:14px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    font-size:.85rem;
+  }
+  header.top .meta span{
+    background:rgba(255,255,255,.15);
+    padding:4px 10px;
+    border-radius:20px;
+  }
+
+  .timeline{
+    display:flex;
+    border-radius:10px;
+    overflow:hidden;
+    margin:18px 0 26px;
+    box-shadow:0 1px 4px rgba(0,0,0,.08);
+    font-size:.72rem;
+    color:#fff;
+    text-align:center;
+  }
+  .timeline div{
+    padding:8px 2px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .t1{background:var(--badge-n);flex:3;}
+  .t2{background:var(--badge-e);flex:7;}
+  .t3{background:var(--badge-t);flex:1;}
+  .t4{background:var(--badge-c);flex:4;}
+  .t5{background:var(--badge-h);flex:3;}
+  .t6{background:#1f8a4c;flex:2;}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 22px;
+    margin-bottom:22px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .card h2{margin-top:0;font-size:1.1rem;}
+
+  table.map{width:100%;border-collapse:collapse;font-size:.83rem;margin:10px 0;}
+  table.map th,table.map td{border:1px solid var(--line);padding:8px 10px;text-align:right;vertical-align:top;}
+  table.map th{background:#f2f2f0;}
+  table.map td.fetch{font-weight:700;white-space:nowrap;}
+
+  .who{
+    display:inline-flex;
+    align-items:center;
+    font-size:.68rem;
+    font-weight:700;
+    padding:2px 9px;
+    border-radius:10px;
+    margin-inline-end:6px;
+    color:#fff;
+    white-space:nowrap;
+  }
+  .who.cto{background:var(--who-cto);}
+  .who.prospect{background:var(--who-prospect);}
+  .who.both{background:var(--who-both);}
+
+  .mtag{
+    display:inline-flex;
+    align-items:center;
+    font-size:.68rem;
+    font-weight:700;
+    padding:2px 9px;
+    border-radius:10px;
+    margin-inline-end:6px;
+    background:var(--mtag-bg);
+    color:var(--mtag-ink);
+    border:1px solid var(--mtag-border);
+    white-space:nowrap;
+  }
+
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 16px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:26px;
+    font-size:.83rem;
+    align-items:center;
+  }
+
+  .toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:26px;}
+  .toc a{
+    font-size:.78rem;text-decoration:none;background:var(--card);
+    border:1px solid var(--line);color:var(--ink);padding:6px 10px;border-radius:16px;
+  }
+  .toc a:hover{border-color:var(--quote-border);}
+
+  .stage{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 22px;
+    margin-bottom:22px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .stage-head{
+    display:flex;align-items:center;flex-wrap:wrap;gap:10px;
+    margin-bottom:10px;border-bottom:1px solid var(--line);padding-bottom:12px;
+  }
+  .badge{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:34px;height:34px;border-radius:50%;color:#fff;font-weight:700;font-size:1.05rem;
+  }
+  .badge.f{background:var(--badge-f);}
+  .badge.e{background:var(--badge-e);}
+  .badge.t{background:var(--badge-t);}
+  .badge.c{background:var(--badge-c);}
+  .badge.h{background:var(--badge-h);}
+  .badge.n{background:var(--badge-n);}
+  .stage h2{margin:0;font-size:1.15rem;flex:1;min-width:200px;}
+  .time-chip{background:var(--ink);color:#fff;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:20px;white-space:nowrap;}
+  .purpose{font-size:.85rem;color:var(--ink-soft);margin:0 0 14px;}
+
+  h3.section-label{
+    font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;
+    color:var(--ink-soft);margin:18px 0 8px;font-weight:700;
+  }
+  h3.section-label:first-of-type{margin-top:0;}
+
+  .script{margin:0;padding:0;list-style:none;counter-reset:step;}
+  .script > li{margin:0 0 10px;padding-inline-start:0;}
+  .line{border-radius:8px;padding:10px 14px;}
+  .line.me{background:var(--quote-bg);border-inline-start:4px solid var(--quote-border);}
+  .line.them{background:var(--them-bg);border-inline-start:4px solid var(--them-border);font-style:italic;color:var(--ink-soft);font-size:.85rem;}
+  .line .tags{margin-bottom:4px;}
+  .line .say{
+    direction:ltr;unicode-bidi:isolate;text-align:left;
+    font-size:.94rem;color:#1c2a3d;
+  }
+  .line.me .say::before{content:"“";color:var(--quote-border);}
+  .line.me .say::after{content:"”";color:var(--quote-border);}
+  .line small.note{display:block;margin-top:4px;font-size:.78rem;color:var(--ink-soft);font-style:normal;}
+
+  .must{background:var(--must-bg);border-inline-start:4px solid var(--must-border);border-radius:6px;padding:10px 14px;margin:8px 0;}
+  .quote{direction:ltr;unicode-bidi:isolate;text-align:left;font-size:.95rem;color:#1c2a3d;font-style:italic;}
+  .quote::before{content:"“";font-style:normal;color:var(--quote-border);margin-inline-end:2px;}
+  .quote::after{content:"”";font-style:normal;color:var(--quote-border);margin-inline-start:2px;}
+
+  ul.listen{background:var(--listen-bg);border-inline-start:4px solid var(--listen-border);border-radius:6px;margin:8px 0;padding:10px 14px;list-style:none;}
+  ul.listen li{margin:4px 0;}
+  ul.listen li::before{content:"👂 ";}
+
+  .branches{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0;}
+  @media (max-width:640px){.branches{grid-template-columns:1fr;}}
+  .branch{border-radius:8px;padding:12px 14px;}
+  .branch.hard{background:var(--hard-bg);border:1px solid var(--hard-border);}
+  .branch.normal{background:var(--normal-bg);border:1px solid var(--normal-border);}
+  .branch .tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:2px 8px;border-radius:10px;margin-bottom:6px;}
+  .branch.hard .tag{background:var(--hard-border);color:#fff;}
+  .branch.normal .tag{background:var(--normal-border);color:#fff;}
+  .branch .quote{font-size:.88rem;}
+
+  .scenario{background:var(--scn-bg);border:1px solid var(--scn-border);border-radius:8px;padding:12px 14px;margin:10px 0;}
+  .scenario .tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:2px 8px;border-radius:10px;margin-bottom:6px;background:var(--scn-border);color:#fff;}
+  .scenario .quote{font-size:.88rem;}
+  .scenario .arrow{font-size:.8rem;color:var(--ink-soft);margin:4px 0;}
+
+  .transition{background:var(--trans-bg);border-inline-start:4px solid var(--trans-border);border-radius:6px;padding:10px 14px;margin:14px 0 0;font-size:.92rem;}
+  .transition b{color:var(--trans-border);}
+
+  table.vd{width:100%;border-collapse:collapse;font-size:.85rem;margin:8px 0;}
+  table.vd th,table.vd td{border:1px solid var(--line);padding:8px 10px;text-align:right;vertical-align:top;}
+  table.vd th{background:#f2f2f0;}
+
+  .traps{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:22px;}
+  .traps h2{margin-top:0;font-size:1.1rem;}
+  .traps ol{padding-inline-start:20px;margin:0;}
+  .traps li{margin:8px 0;}
+
+  .reminder{background:#fff8e1;border:1px solid #e0c34c;border-radius:12px;padding:16px 18px;font-size:.92rem;margin-bottom:22px;}
+  .reminder b{color:#8a6d00;}
+
+  footer{text-align:center;color:var(--ink-soft);font-size:.8rem;margin-top:20px;}
+
+  @media print{ body{background:#fff;} .stage{break-inside:avoid;} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>תסריט שיחת Discovery — Roll20</h1>
+    <div class="sub">Datadog · Commercial AE · Sales Challenge Role Play — מבנה מותאם אישית, 20 דקות מדויקות</div>
+    <div class="meta">
+      <span>📅 17.9.2026, 15:00 IDT</span>
+      <span>⏱️ 20 דקות מדויקות</span>
+      <span>👥 Prospect + CTO (שני מגייסים)</span>
+      <span>🧭 מבנה: Discovery-first → Mirror → Tailored Pitch</span>
+      <span>🔬 מתחת למכסה: MEDDPICC + Command of the Message</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- STRUCTURE NOTE -->
+  <div class="reminder" style="margin-top:20px;">
+    <b>שינוי מבנה מכוון (לא לפי הסדר ה"רשמי" של FETCH):</b> במקום Elevator Pitch מוקדם, בחרת לדלג ישר מהפתיחה לגילוי כאבים, ולתת את ה-pitch רק אחרי מירורינג — ממוקד ומחובר ישירות למה שהם אמרו. זה למעשה <b>גרסה חזקה יותר</b> של "Presenting Datadog" מהמדריך הרשמי (עמ' 4: "connect current technical challenges + business impact to Datadog capabilities") — פשוט מוקדם יותר בזרימה. זה עדיין מכסה את כל 5 קריטריוני ההערכה, רק בסדר אחר. המירורינג (שלב 3) הוא הבונוס שממחיש Structure + Awareness בו-זמנית.
+  </div>
+
+  <div class="timeline">
+    <div class="t1">0–3<br>פתיחה+חוזה</div>
+    <div class="t2">3–10<br>Pain Discovery</div>
+    <div class="t3">10–11<br>Mirror</div>
+    <div class="t4">11–15<br>Pitch+Value</div>
+    <div class="t5">15–18<br>Objections</div>
+    <div class="t6">18–20<br>Close</div>
+  </div>
+
+  <!-- LESSONS FROM LAST RUN -->
+  <div class="reminder" id="lastrun">
+    <b>לקחים מהריצה האחרונה שתרגלת (סימולציית קול, Roll20 — Alex + Mike):</b>
+    <p style="margin:8px 0 4px;">מה עבד: <b>ה-discovery היה החלק הכי חזק שלך</b> — העלית את תקרית יולי, את זה ש-phase 2 של הפוסט-מורטם מפגר, כרטיסי תמיכה, עסקאות שנכשלו, ושיחה ברמת ה-board. חיברת כאב טכני לתוצאה עסקית טוב.</p>
+    <p style="margin:8px 0 4px;">מה נשבר: (1) כשעלה "we already fixed this ourselves, why do we need a vendor" — זרקת 4 value props בבת אחת במקום לענות ישירות עם אחד. (2) ביקשת מהם לנחש עלות, וכשענו "תריסר מהנדסים, שבועיים" — לא הפכת את זה לקייס. (3) על אובג'קשן המחיר, "it can't be more expensive than our products" הייתה התחמקות, לא reframe.</p>
+    <p style="margin:0;"><b>התיקון מובנה עכשיו בשלבים 4–5 למטה:</b> value driver אחד, ותמיד להשתמש במספר שהם כבר נתנו לך — גם באובג'קשן וגם במחיר.</p>
+  </div>
+
+  <!-- MEDDPICC / COTM MAPPING -->
+  <div class="card" id="meddpicc">
+    <h2>🔬 מה באמת מאחורי FETCH</h2>
+    <p class="purpose">FETCH הוא הגרסה הפנימית של Datadog ל-<b>MEDDPICC</b> ו-<b>Command of the Message</b>. המעריכים לא באמת סופרים אם אמרת "F-E-T-C-H" — הם מחפשים את האותות האמיתיים. עם המבנה החדש שלך, ככה זה נופל:</p>
+    <table class="map">
+      <tr><th>שלב בתסריט שלך</th><th>המושג האמיתי (MEDDPICC / COTM)</th><th>מה זה בודק בפועל</th></tr>
+      <tr><td class="fetch">1 — פתיחה + "מה אכפת לכם"</td><td>Economic Buyer / Champion + Compelling Event</td><td>מי מחזיק בסמכות, ומה גורם להם לזוז עכשיו — הכל בשאלה אחת</td></tr>
+      <tr><td class="fetch">2 — Pain Discovery</td><td>Identify Pain (I)</td><td>כאב טכני קונקרטי ומדיד</td></tr>
+      <tr><td class="fetch">3 — Mirroring</td><td>(טכניקת Awareness/Structure)</td><td>מוודא שהבנת נכון לפני שמדברים פתרון — מונע פיץ' על הבנה שגויה</td></tr>
+      <tr><td class="fetch">4 — Pitch + Value</td><td>Metrics (M) + Decision Criteria (DC) + Full Value</td><td>תרגום הכאב לתוצאה עסקית מדידה, ונטיעת קריטריון החלטה אחד ברור</td></tr>
+      <tr><td class="fetch">5 — Objections</td><td>Competition (C)</td><td>התמודדות עם האלטרנטיבה — כלים קיימים, סטטוס קוו, "נעשה לבד", תזמון</td></tr>
+      <tr><td class="fetch">6 — Close</td><td>Decision Process + Champion</td><td>צעד הבא קונקרטי ומי עוד צריך להיות בחדר</td></tr>
+    </table>
+  </div>
+
+  <!-- ROLE ROUTING -->
+  <div class="card" id="routing">
+    <h2>🧭 מי מול מי — לאיזה מהם מפנים כל שאלה</h2>
+    <p class="purpose">ה"Prospect" קרוב יותר לכאב היומיומי ולתפקיד ה-<b>Champion</b> הפוטנציאלי. ה-"CTO" קרוב יותר לסמכות אסטרטגית/תקציבית — קרוב יותר ל-<b>Economic Buyer</b>. זו הנחת ברירת מחדל — השאלה הפתוחה בשלב 1 ("what's your position, what are you responsible for") מיועדת בדיוק כדי לוודא את זה, ולכייל תוך כדי אם מתברר אחרת.</p>
+    <table class="map">
+      <tr><th>סוג שאלה</th><th>ברירת מחדל: למי</th><th>למה</th></tr>
+      <tr><td>תפעול יומיומי, איך מגלים תקלה, on-call, כלים בשימוש</td><td><span class="who prospect">Prospect</span></td><td>הם חיים את זה כל יום</td></tr>
+      <tr><td>עדיפויות ברמת ההנהלה, תקציב, אסטרטגיה, board-level</td><td><span class="who cto">CTO</span></td><td>קרוב יותר לסמכות ולתמונה הרחבה</td></tr>
+      <tr><td>הפוסט-מורטם של ינואר / תקרית המרקטפלייס של יולי</td><td><span class="who both">שניהם</span> — להתחיל מה-CTO</td><td>זה literally הפוסט שלו</td></tr>
+      <tr><td>מי עוד צריך להיות בחדר / תהליך קבלת החלטה</td><td><span class="who cto">CTO</span></td><td>קרוב יותר לתהליך ההחלטה בפועל</td></tr>
+      <tr><td>"איך זה מרגיש לצוות שלכם ביום-יום"</td><td><span class="who prospect">Prospect</span></td><td>חוויית שטח אמיתית</td></tr>
+    </table>
+  </div>
+
+  <div class="toc">
+    <a href="#lastrun">לקחים מהריצה האחרונה</a>
+    <a href="#meddpicc">MEDDPICC/COTM</a>
+    <a href="#routing">מי מול מי</a>
+    <a href="#s1">1. פתיחה+חוזה</a>
+    <a href="#s2">2. Pain Discovery</a>
+    <a href="#s3">3. Mirroring</a>
+    <a href="#s4">4. Pitch+Value</a>
+    <a href="#s5">5. Objections</a>
+    <a href="#s6">6. Close</a>
+    <a href="#traps">מלכודות</a>
+    <a href="#reminder">תזכורת</a>
+  </div>
+
+  <div class="legend">
+    <div><b>מקרא:</b></div>
+    <div><span class="who cto">CTO</span> לפנות ל-CTO</div>
+    <div><span class="who prospect">Prospect</span> לפנות לפרוספקט</div>
+    <div><span class="who both">שניהם</span> לפנות לשניהם</div>
+    <div><span class="mtag">🟣 Metrics</span> תגית MEDDPICC/COTM</div>
+    <div><span class="dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--quote-border);vertical-align:middle;"></span> אני אומר</div>
+    <div><span class="dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--them-border);vertical-align:middle;"></span> הם עונים</div>
+    <div><span class="dot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--scn-border);vertical-align:middle;"></span> תרחיש/ענף עומק</div>
+  </div>
+
+  <!-- STAGE 1 -->
+  <section class="stage" id="s1">
+    <div class="stage-head">
+      <span class="badge n">1</span>
+      <h2>פתיחה + חוזה שיחה</h2>
+      <span class="time-chip">3 דקות (0:00–0:03)</span>
+    </div>
+    <p class="purpose">שאלה אחת עושה כפול: מכיילת תפקידים (EB/Champion) <u>וגם</u> חושפת יוזמה אסטרטגית (Find Initiatives) — בלי לבזבז שלב נפרד עליה.</p>
+
+    <h3 class="section-label">📜 תסריט מלא (המשפטים שלך, מדויק)</h3>
+    <ol class="script">
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span></div>
+        <div class="say">Hey — I'm Nir Ventura, Account Executive at Datadog. Thank you for your time.</div>
+      </li>
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span></div>
+        <div class="say">I'm really happy to be here, and I want to say upfront — the purpose of this meeting is to have a conversation about Roll20, and about your technical and business challenges.</div>
+      </li>
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span> <span class="mtag">🟣 EB/Champion + Compelling Event</span></div>
+        <div class="say">I'd love to hear about you two — what's your position, what are you responsible for, and what do you care about?</div>
+      </li>
+      <li class="line them">(הם עונים — <b>הקשבה כפולה כאן</b>: (א) מי EB ומי Champion פוטנציאלי, (ב) האם עולה ספונטנית יוזמה/דאגה קונקרטית. אם כן — <b>דלג ישר לענפי העומק בשלב 2</b>, לא לשאלות הפתיחה הגנריות.)</li>
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span></div>
+        <div class="say">That's really helpful, thank you both — [לשקף במילה אחת את מה שהם אמרו] sounds like a big focus area. I want to dig into that a bit, if that's okay.</div>
+      </li>
+    </ol>
+
+    <h3 class="section-label">מה אני מקשיב לו</h3>
+    <ul class="listen">
+      <li>שמות ותפקידים — לרשום בראש מי CTO ומי Prospect בפועל</li>
+      <li>מי EB (תקציב/סמכות) ומי Champion פוטנציאלי (כאב יומיומי)</li>
+      <li>כל אזכור ספונטני של יוזמה/כאב — זה "hook" שחוסך לך את השאלות הגנריות בשלב 2</li>
+    </ul>
+
+    <div class="branches">
+      <div class="branch hard">
+        <span class="tag">מקשים עליי</span>
+        <div class="quote">Let's just get straight to it, we don't have much time.</div>
+        <p style="font-size:.85rem;margin:6px 0 0;">→ לקצר לחצי משפט: "Totally — quick context on why I'm here, then straight to you." ולעבור מיד לשאלת התפקידים.</p>
+      </div>
+      <div class="branch normal">
+        <span class="tag">רגיל</span>
+        <div class="quote">Sure — I'm Alex, I lead engineering day to day. This is Mike, our CTO.</div>
+        <p style="font-size:.85rem;margin:6px 0 0;">→ ממשיכים לפי התסריט המלא.</p>
+      </div>
+    </div>
+
+    <div class="transition"><b>מעבר לשלב הבא:</b> <span class="quote" style="display:inline;">So — based on what you just shared, let's get specific about how things actually work day to day.</span></div>
+  </section>
+
+  <!-- STAGE 2 -->
+  <section class="stage" id="s2">
+    <div class="stage-head">
+      <span class="badge e">2</span>
+      <h2>Pain Discovery — גילוי כאבים</h2>
+      <span class="time-chip">7 דקות (0:03–0:10)</span>
+    </div>
+    <p class="purpose">השלב הכי ארוך. אם קיבלת hook קונקרטי בשלב 1 — דלג ישר לענפי העומק. אם לא — 5 שאלות הפתיחה למטה הן ה-fallback שלך.</p>
+
+    <h3 class="section-label">5 שאלות פתיחה (fallback — אם לא עלה משהו קונקרטי בשלב 1)</h3>
+    <div class="must">
+      <div class="tags"><span class="who prospect">Prospect</span> <span class="mtag">🟣 Identify Pain</span></div>
+      <div class="quote">Walk me through what happens today when something goes wrong in production — how do you usually find out, and how long does it typically take to get from "something's wrong" to "we know why"?</div>
+    </div>
+    <div class="must">
+      <div class="tags"><span class="who cto">CTO</span> <span class="mtag">🟣 Identify Pain</span></div>
+      <div class="quote">With Kubernetes, Firebase, and Cloudflare all in your stack, how do you currently figure out which layer is actually responsible when something breaks?</div>
+    </div>
+    <div class="must">
+      <div class="tags"><span class="who both">שניהם</span> <span class="mtag">🟣 Compelling Event</span></div>
+      <div class="quote">You've brought four platforms — Roll20, DriveThruRPG, Demiplane, Dungeon Scrawl — under one company. How connected are they operationally today — do incidents on one ever spill into another, or are they pretty isolated?</div>
+    </div>
+    <div class="must">
+      <div class="tags"><span class="who prospect">Prospect</span> <span class="mtag">🟣 Identify Pain</span></div>
+      <div class="quote">What's the most frustrating part of being on-call for your team right now?</div>
+    </div>
+    <div class="must">
+      <div class="tags"><span class="who cto">CTO</span> <span class="mtag">🟣 Compelling Event</span></div>
+      <div class="quote">Looking ahead 6 to 12 months, what's the biggest risk to reliability as you keep growing?</div>
+    </div>
+    <p style="font-size:.82rem;color:var(--ink-soft);">בחר <b>1–2</b> מתוך החמש לפי מי שכבר דיבר ומה הם אמרו — אין זמן לכל החמש. תעדיף את זו שהכי מתחברת למה שכבר עלה.</p>
+
+    <h3 class="section-label">🔎 ענפי עומק — לפי מה שהם בפועל עונים</h3>
+
+    <div class="scenario">
+      <span class="tag">תרחיש A — תשובה כללית</span>
+      <div class="quote">Yeah, it usually takes us a while to figure out what's going on.</div>
+      <div class="arrow">↳ שאלת עומק:</div>
+      <div class="quote">When you say "a while" — is that more like 20 minutes, or more like a few hours? And who typically ends up in that room?</div>
+    </div>
+
+    <div class="scenario">
+      <span class="tag">תרחיש B — מזכירים כלי ספציפי</span>
+      <div class="quote">We've got some dashboards for that.</div>
+      <div class="arrow">↳ שאלת עומק:</div>
+      <div class="quote">Does that dashboard cover just one platform, or does it give you a single view across all four?</div>
+    </div>
+
+    <div class="scenario">
+      <span class="tag">תרחיש C — עולה תקרית יולי ספונטנית</span>
+      <div class="quote">Actually, the marketplace launch in July was a real mess.</div>
+      <div class="arrow">↳ שאלת עומק:</div>
+      <div class="quote">What ended up being the actual root cause there — was it something you could see quickly, or did it take a while to isolate?</div>
+    </div>
+
+    <div class="scenario">
+      <span class="tag">תרחיש D — מתחמקים / "אנחנו בסדר"</span>
+      <div class="quote">Honestly, we handle it fine.</div>
+      <div class="arrow">↳ הגשר המוכן (פוסט-מורטם):</div>
+      <div class="quote">I saw the postmortem Mike published in January about the memory-swap issue — how's the "instrument it" phase of that plan going in practice?</div>
+    </div>
+
+    <div class="scenario">
+      <span class="tag">תרחיש E — מזכירים עומס/כוח אדם</span>
+      <div class="quote">We're just a bit stretched thin on the team right now.</div>
+      <div class="arrow">↳ שאלת עומק:</div>
+      <div class="quote">Is that a hiring problem, or more that the tooling itself demands a lot of manual digging no matter how many people you have?</div>
+    </div>
+
+    <h3 class="section-label">מה אני מקשיב לו</h3>
+    <ul class="listen">
+      <li>מילות מפתח: "MTTR", "on-call", "war room", שמות כלים מתחרים</li>
+      <li>שפה רגשית ("frustrating", "we got lucky", "it was a mess") — הכאב האמיתי</li>
+      <li>שפה עסקית מהם (support tickets, churn, revenue) — לחזק, לא לתת לזה לחמוק</li>
+      <li>מי בפועל "בעל" הבעיה — champion פוטנציאלי</li>
+    </ul>
+
+    <div class="transition"><b>מעבר לשלב הבא:</b> <span class="quote" style="display:inline;">This is really helpful — let me just make sure I've got the full picture before I go any further.</span></div>
+  </section>
+
+  <!-- STAGE 3 -->
+  <section class="stage" id="s3">
+    <div class="stage-head">
+      <span class="badge t">3</span>
+      <h2>Mirroring — שיקוף מה שהבנו</h2>
+      <span class="time-chip">1 דקה (0:10–0:11)</span>
+    </div>
+    <p class="purpose">משפט אחד, לפני שמדברים פתרון בכלל. זה מדגים Structure + Awareness בו-זמנית, ונותן להם הזדמנות לתקן/להוסיף לפני שאתה "יורה" פתרון על הבנה שגויה.</p>
+
+    <h3 class="section-label">📜 תסריט (תבנית — למלא לפי מה שבאמת עלה)</h3>
+    <ol class="script">
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span></div>
+        <div class="say">Okay, let me just make sure I'm tracking this correctly — it sounds like [כאב 1 במילים שלהם], and that connects to [כאב 2 / ההשפעה העסקית], and on top of that there's [כאב 3, אם עלה]. Did I get that right, or am I missing something?</div>
+      </li>
+      <li class="line them">(מאשרים, או — <b>עוד יותר טוב</b> — מתקנים/מוסיפים. אם מוסיפים כאב נוסף כאן, זה בדיוק חומר לשלב 4.)</li>
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span></div>
+        <div class="say">Got it, thank you — that's really useful.</div>
+      </li>
+    </ol>
+    <p style="font-size:.82rem;color:var(--ink-soft);">גם אם קצר בזמן — <b>אל תדלג על השלב הזה</b>. זו משפט אחד עם החזר הכי גבוה בכל התסריט.</p>
+
+    <div class="transition"><b>מעבר לשלב הבא:</b> <span class="quote" style="display:inline;">Given all of that, here's where I think this could actually help you —</span></div>
+  </section>
+
+  <!-- STAGE 4 -->
+  <section class="stage" id="s4">
+    <div class="stage-head">
+      <span class="badge c">4</span>
+      <h2>Pitch + Value Creation — פיץ' מותאם ויצירת ערך</h2>
+      <span class="time-chip">4 דקות (0:11–0:15)</span>
+    </div>
+    <p class="purpose">זה גם ה-pitch (מאוחר ומותאם, לא elevator pitch גנרי) וגם Create Value + Tie to Outcomes ביחד. <b>value driver אחד בלבד</b>.</p>
+
+    <div class="reminder" style="margin-bottom:16px;">
+      <b>⚠️ בדיוק כאן נשברת בריצה האחרונה:</b> זרקת 4 value props בבת אחת במקום אחד. <b>הכלל: בוחרים את ה-ONE שמתחבר הכי ישיר למה שמיררת רגע קודם, ועוצרים שם.</b>
+    </div>
+
+    <h3 class="section-label">📜 תסריט מלא</h3>
+    <ol class="script">
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span> <span class="mtag">🟣 Decision Criteria + Full Value</span></div>
+        <div class="say">Given what you've described — [לשקף את הכאב המרכזי] — here's where I think Datadog could actually help. [מנגנון קונקרטי, למשל: Watchdog flags anomalies like that DB latency spike automatically, before someone has to notice it first / one unified view across all four platforms instead of jumping between tools]. That maps to what we'd call [value driver אחד] — essentially [תוצאה, למשל: catching the next marketplace-style issue before it turns into a two-week stabilization effort].</div>
+        <small class="note">רק ONE משפט ערך. לא להמשיך למשפט ערך שני, גם אם מפתה.</small>
+      </li>
+      <li class="line them">(מגיבים — עניין, שאלה, או אובג'קשן. <b>אם עולה אובג'קשן כאן — לענות מיד לפי שלב 5, לא לחכות.</b>)</li>
+      <li class="line me">
+        <div class="tags"><span class="who prospect">Prospect</span> <span class="mtag">🟣 Metrics</span></div>
+        <div class="say">If you had to guess — how many engineering hours went into diagnosing [התקרית שהם הזכירו] before you even got to the fix?</div>
+      </li>
+      <li class="line them">(עונים עם מספר גס — למשל "a dozen engineers, about two weeks". <b>זה העוגן שלך לשלב 5.</b>)</li>
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span> <span class="mtag">🟣 Metrics → Case</span></div>
+        <div class="say">So if it's roughly a dozen engineers tied up for about two weeks — that's real, recurring cost every time this happens, not just an inconvenience. What we're really talking about is shrinking that down toward root cause found in minutes instead of days, without me making up a specific number for you.</div>
+        <small class="note">אל תעצור אחרי שהם נותנים מספר — תמיד הפוך אותו למשפט "קייס" עם המספר שלהם, בלי להמציא "אחרי" קונקרטי.</small>
+      </li>
+    </ol>
+
+    <h3 class="section-label">📎 proof point אופציונלי (רק אם רלוונטי, לא כברירת מחדל)</h3>
+    <div class="must">
+      <div class="quote">We actually work with EA DICE, on Battlefield — very similar problem prepping for a huge launch, and issues that used to take weeks to track down now get resolved in hours because metrics and logs are correlated in one place.</div>
+      <p style="font-size:.8rem;margin:4px 0 0;color:var(--ink-soft);">להשתמש רק אם עלה נושא סקייל/תקרית גדולה. יש דוגמה נוספת (Neto, לנושא איחוד פלטפורמות) בקובץ <i>roll20-similar-usecase.html</i>.</p>
+    </div>
+
+    <h3 class="section-label">מיפוי Value Drivers (רק ONE)</h3>
+    <table class="vd">
+      <tr><th>Value Driver</th><th>איך זה מתחבר ל-Roll20</th></tr>
+      <tr><td><b>Improve Reliability &amp; Performance</b></td><td>Lower MTTR — literally step 2 של מייק ("instrument it")</td></tr>
+      <tr><td><b>Ship Better Code Faster</b></td><td>4 codebases שצריכים developer productivity אחיד</td></tr>
+      <tr><td><b>Optimize Technology Costs</b></td><td>אם עדיין self-managing חלק מה-stack — שיחת consolidation</td></tr>
+      <tr><td><b>Enhance User Experience</b></td><td>8M+ משתמשים — חוויית סשן live היא ה-core product</td></tr>
+      <tr><td>Reduce Security Risk</td><td>פחות רלוונטי — לא להכניס בכוח</td></tr>
+    </table>
+
+    <div class="transition"><b>מעבר לשלב הבא:</b> <span class="quote" style="display:inline;">Based on everything we've covered, I imagine some of this raises questions — happy to dig in.</span></div>
+  </section>
+
+  <!-- STAGE 5 -->
+  <section class="stage" id="s5">
+    <div class="stage-head">
+      <span class="badge h">5</span>
+      <h2>Objection Handling — 5 התנגדויות מרכזיות</h2>
+      <span class="time-chip">3 דקות (0:15–0:18)</span>
+    </div>
+    <p class="purpose">כדאי להכיר את כל 5, אבל בפועל תעלה כנראה רק אחת-שתיים. <b>הכלל המרכזי: אם כבר קיבלת מספר מהם (שלב 4) — תמיד תשתמש בו, לא בתשובה גנרית.</b></p>
+
+    <div class="branches">
+      <div class="branch hard">
+        <span class="tag">1. "כבר תיקנו לבד"</span>
+        <div class="quote">We just wrote a whole postmortem and fixed it ourselves — why do we need a vendor?</div>
+        <div class="quote">That's exactly why this matters — you already told me it took about a dozen engineers roughly two weeks to get through the last one. The question isn't whether your team is capable, it's whether the next one takes a dozen engineers two weeks again, or gets caught automatically before it turns into that.</div>
+      </div>
+      <div class="branch hard">
+        <span class="tag">2. "אנחנו קטנים מדי"</span>
+        <div class="quote">We're a lean team, this feels like it's for bigger companies.</div>
+        <div class="quote">It's actually the opposite for lean teams — you don't have the headcount to babysit five different open-source tools. One platform means less operational overhead, not more.</div>
+      </div>
+      <div class="branch hard">
+        <span class="tag">3. "כבר יש לנו משהו"</span>
+        <div class="quote">We already have some monitoring in place.</div>
+        <div class="quote">Totally normal at your stage. The real question is whether what you have today would have caught the marketplace issue automatically, or whether it took a person noticing something felt slow.</div>
+      </div>
+      <div class="branch hard">
+        <span class="tag">4. "זה נשמע יקר"</span>
+        <div class="quote">This sounds expensive. / It can't be more expensive than what we're already paying for.</div>
+        <div class="quote">Compared to what, though? You already told me the last incident tied up about a dozen engineers for two weeks — that's the real number I'd compare against, not a list price. Is a repeat of that more or less expensive than what we're talking about?</div>
+      </div>
+      <div class="branch hard">
+        <span class="tag">5. "אין לנו זמן/bandwidth"</span>
+        <div class="quote">We just don't have bandwidth for a new tool right now, we're heads-down on other things.</div>
+        <div class="quote">Totally fair — most teams we talk to are heads-down too. That's actually often exactly when this matters most, because it means nobody has spare cycles to manually catch the next incident. This isn't a heavy lift to start — worth seeing what a scoped look at just the marketplace service would show?</div>
+      </div>
+    </div>
+
+    <p style="font-size:.82rem;color:var(--ink-soft);margin-top:10px;"><b>מלכודת מהריצה הקודמת:</b> "it can't be more expensive than our products" היא התחמקות, לא reframe. ה-reframe האמיתי חוזר תמיד למספר <u>שלהם</u> (המהנדסים/השבועות), לא למחירי המוצר שלהם ולא ל-ROI מומצא.</p>
+
+    <div class="transition"><b>מעבר לשלב הבא:</b> <span class="quote" style="display:inline;">Based on everything we've talked through, it sounds like there could be a real fit here.</span></div>
+  </section>
+
+  <!-- STAGE 6 -->
+  <section class="stage" id="s6">
+    <div class="stage-head">
+      <span class="badge n" style="background:#1f8a4c;">✓</span>
+      <h2>Close — קביעת סשן טכני להערכת ההתאמה</h2>
+      <span class="time-chip">2 דקות (0:18–0:20)</span>
+    </div>
+
+    <h3 class="section-label">📜 תסריט מלא</h3>
+    <ol class="script">
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span> <span class="mtag">🟣 Decision Process</span></div>
+        <div class="say">Based on everything you've shared, it sounds like there could be a real fit here. I'd love to set up a technical session — bring in whoever owns the marketplace database — where we can really dig into this together and see if it holds up. Does that make sense as a next step?</div>
+      </li>
+      <li class="line them">(עונים — fit / not fit. ראה ענפים למטה.)</li>
+      <li class="line me">
+        <div class="tags"><span class="who cto">CTO</span> <span class="mtag">🟣 Champion + Decision Process</span></div>
+        <div class="say">Who else would be useful to have in that session?</div>
+      </li>
+      <li class="line them">(עונים — שם ספציפי = איתות חזק ל-multi-threading.)</li>
+      <li class="line me">
+        <div class="tags"><span class="who both">שניהם</span></div>
+        <div class="say">Great — I'll follow up with a calendar invite this week. Thanks so much for the time, both of you — this was really useful.</div>
+      </li>
+    </ol>
+
+    <div class="branches">
+      <div class="branch hard">
+        <span class="tag">מקשים עליי — לא עכשיו</span>
+        <div class="quote">We're not really looking to change anything right now.</div>
+        <div class="quote">Totally understand — can I ask, is that a timing thing, or genuinely not a priority right now? Either way, would it be OK if I check back in a quarter or so, in case the marketplace situation evolves?</div>
+      </div>
+      <div class="branch normal">
+        <span class="tag">רגיל — ממשיכים</span>
+        <div class="quote">Yeah, let's set something up.</div>
+        <div class="quote">Great — let's grab 30 minutes with [CTO / DB owner] to go deeper on the marketplace side specifically. I'll send an invite this week — does [day] generally work?</div>
+      </div>
+    </div>
+
+    <p style="font-size:.85rem;color:var(--ink-soft);margin-top:14px;">בדיוק המשפט מהמדריך הרשמי: <i>"Not a fit → part ways. Are a fit → schedule the next meeting with the right stakeholders."</i></p>
+  </section>
+
+  <!-- TRAPS -->
+  <div class="traps" id="traps">
+    <h2>מלכודות שכדאי להיזהר מהן (קריטריון "Awareness")</h2>
+    <ol>
+      <li><b>לפרוס יותר מ-value driver אחד</b> — ב-20 דקות אין זמן, ולפרוס יותר נראה כמו רשימת features.</li>
+      <li><b>לדלג על המירורינג (שלב 3)</b> — זו רק משפט אחד, אבל בלעדיו הפיץ' עלול לפגוע ליד ולא בול.</li>
+      <li><b>להתעלם ממי שלא ענה קודם</b> — לפנות במפורש לשניהם לפחות פעם אחת כל אחד, בשמו.</li>
+      <li><b>לצטט את הפוסט-מורטם כאילו אני יודע יותר מהם</b> — דלת, לא "תפיסה".</li>
+      <li><b>להמציא מספר ROI</b> — לשאול, לא להצהיר.</li>
+      <li><b>לענות על אובג'קשן ברשימת features במקום ישירות</b> — לענות ישר במשפט אחד.</li>
+      <li><b>לבקש מספר ולא לעשות איתו כלום</b> — תמיד להפוך תשובה מספרית למשפט "קייס" מיד, ולהשתמש בה שוב אם עולה אובג'קשן מחיר.</li>
+      <li><b>לחרוג משלב 2 (Pain Discovery) על חשבון שלבים 4–6</b> — אם השיחה נמשכת, לוותר על שאלת פתיחה שנייה, לא על ה-Close.</li>
+    </ol>
+  </div>
+
+  <div class="reminder" id="reminder">
+    <b>תזכורת לפני 17.9:</b> שרה כתבה שצריך לעיין ולהסכים למסמך <b>"Interviewing at Datadog - AI Guidelines"</b> לפני שממשיכים בתהליך — עדיין לא קיבלת אותו. שווה לבקש אותו שוב במייל לפני היום עצמו.
+  </div>
+
+  <footer>
+    תסריט פנימי לתרגול אישי — לא לקרוא מהדף בזמן השיחה האמיתית, רק להפנים.
+  </footer>
+
+</div>
+</body>
+</html>
